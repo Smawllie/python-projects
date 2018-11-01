@@ -1,1 +1,5 @@
-A program to set the values of chromosome pairs and test whether the pairs are valid
+# Chromosome-reader
+A program to set the values of chromosome pairs and test whether the pairs are valid.
+Showcases:
+- UML diagrams
+- docstrings
