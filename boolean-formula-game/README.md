@@ -7,7 +7,10 @@ A game that two players can play to achieve the goal of outputting either true o
 
 To play the game download all three files except unittests.py, then run play_formula_game.py.
 <br />
-Formulas consist of the lowercase alphabet a-z (variables), * (or), + (and), and "-" (not). All formulas consisting of * or + must be enclosed in brackets. The goal for player E is to end with 1 and for player A to end with 0
+Formulas consist of the lowercase alphabet a-z (variables), * (or), + (and), and "-" (not). All formulas consisting of * or + must be enclosed in brackets. The goal for player E is to end with 1 and for player A to end with 0 <br />
+
+How the shell will prompt you:
+
 - Step 1: "Please enter formula:"
 - Step 2: "Please enter order of variables to assign:"
 - Step 3: "Please enter turns of players E and A:"
