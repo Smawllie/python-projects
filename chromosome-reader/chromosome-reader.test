@@ -1,0 +1,87 @@
+setup|dad|Male("14325")
+dad.get_id()|"Get's the id"|'14325'
+dad.set_id('5111')|"Set id to 5111'|None
+dad.get_id()|"Get's the id"|'5111'
+dad.set_by_pos(2, 55, "AG")|"Set chromosome pair 2-55 to be AG"|None
+dad.set_by_pos(2, 66, "TC")|"Check if multiple positions in a chromosome work"|None
+dad.get_by_pos(2, 55)|"Get chromosome pair 2-5"|'AG'
+dad.get_by_pos(2, 66)|"Get chromosome pair 2-66"|'TC'
+dad.set_marker("tc52", 2, 23)|"Set tc52 to point to chromosome pair 2-23"|None
+dad.set_by_marker("tc52", "AT")|"Set tc52 to point to AT"|None
+dad.get_by_marker("tc52")|"Should output AT"|'AT'
+dad.set_marker("tc23", 2, 55)|"Check if chromosome pairs override properly"|None
+dad.set_by_marker("tc23", "TA")|"point tc23 to TA instead of AG which it was previously"|None
+dad.get_by_marker("tc23")|"Should output TA"|'TA'
+dad.get_by_pos(2, 55)|"Because overridden, should return TA"|'TA'
+dad.set_marker("tc52", 3, 23)|"Check if marker id's override properly"|None
+dad.set_by_marker("tc52", "CG")|"Should set tc52 to point to pair 3-23 and 'CG'|None
+dad.get_by_marker("tc52")|"Should output CG"|'CG'
+dad.get_by_pos(3, 23)|"Even though set_by_pos was never used, because the marker points to a chromosome pair here, this pair should exist"|'CG'
+dad.set_by_pos(1, 1, "AT")|"Want to use set_by_pos, set_marker and see if marker can be get"|None
+dad.set_marker("rsta", 1, 1)|"Marker set"|None
+dad.get_by_marker("rsta")|"Marker should return AT"|'AT'
+setup|mom|Female("53264")
+setup|dad2|Male("11111")
+setup|query|Query()
+mom.test(query)|"Empty query should return True"|True
+query.set_by_pos(22, 2, "CT")|"Will use this to check unknown nucleotides in sex chromosomes for Male and Female"|None
+mom.test(query)|"Unknown nucleotide at sex chromosome for Female"|True
+dad2.test(query)|"Unknown nucleotide at sex chromosome for Male"|False
+setup|query2|Query()
+query2.set_by_pos(1, 2, "AT")|"Will use this to test for position and markers"|None
+query2.set_marker("abc123", 2, 4)|"Setting up marker"|None
+query2.set_by_marker("abc123", "TG")|"Marker set up finished"|None
+mom.test(query2)|"Multiple questions in the query, but no chromosome pairs found"|True
+mom.set_by_pos(1, 2, "AT")|"Will use this to test multiple questions in query"|None
+mom.test(query2)|"Multiple questions in the query, but only one chromosome pair found"|True
+mom.set_by_pos(2, 4, "TG")|"Checking to see if pair 2-4 will match 2-4 when setting using position and markers"|None
+mom.test(query2)|"Multiple questions in the query"|True
+setup|query3|Query()
+query3.set_by_pos(1, 1, "12")|"Will use this to check for reverse chromosome pairs"|None
+query3.set_marker("nd41", 20, 1)|"Setting up marker"|None
+query3.set_by_marker("nd41", "21")|"Marker setup finished"|None
+dad2.set_by_pos(1, 1, "AT")|"Reverse of AT will be TA"|None
+dad2.set_by_pos(20, 1, "AT")|"Should fail since not reversed properly"|None
+dad2.test(query3)|"AT is not the reverse of AT"|False
+dad2.set_by_pos(20, 1, "TA")|"Now the pair is reversed"|None
+dad2.test(query3)|"AT is the reverse of TA"|True
+query3.set_by_pos(5, 10, "3A")|"1 Memory nucleotide and 1 normal nucleotide"|None
+query3.set_by_pos(6, 4, "91")|"More memory nucleotides"|None
+dad2.set_by_pos(5, 10, "TA")|"Setting up more chromosome pairs|None
+dad2.set_by_pos(6, 4, "GA")|"Setting up chromosome pair"|None
+dad2.test(query3)|"1 -> A, 2 -> T, 3 -> T, 9 -> G. Multiple memory nucleotides and some point to the same nucleotide"|True
+setup|bind|Binder()
+bind.set_sex('F')|"Set the binder to create female children"|None
+bind.set_by_pos(1, 2, 'LM')|"Set 1-2 binder gene to be left maternal"|None
+setup|daddy|Male('1234')
+setup|mama|Female('4325')
+mama.procreate(daddy, bind).get_data()|"Should not have any data because neither daddy or mama have chromosome 1-2"|[]
+daddy.set_by_pos(1, 2, "CT")|"Set dad gene for binder"|None
+mama.procreate(daddy, bind).get_data()|"Should not have any data because mama does not have chromosome 1-2"|[]
+mama.set_by_pos(1, 2, "GA")|"Set mom gene for binder"|None
+mama.procreate(daddy, bind).get_by_pos(1, 2)|"Because of left maternality, child should have 1-2 be GT"|'GT'
+daddy.set_by_pos(2, 2, "AT")|"Set dad gene for binder"|None
+mama.set_by_pos(2, 2, "TC")|"Set mom gene for binder"|None
+bind.set_by_pos(2, 2, "RM")|"Set 2-2 binder gene to be right maternal|None
+mama.procreate(daddy, bind).get_by_pos(2, 2)|"Because of right maternality, child should have 2-2 be AC"|'AC'
+setup|chrom|Chromosome()
+chrom.__str__()|"Returns a string representation of the chromosome"|"This chromosome contains 0 pair(s) at position(s)"
+chrom.set_by_pos(44, "AG")|"Set chromosome position at 44 to be AG"|None
+chrom.get_by_pos(44)|"Should return AG"|'AG'
+chrom.set_by_pos(1, "TC")|"Set position 1 to be TC"|None
+chrom.__str__()|"Returns string representation of chromosome with pairs 44-AG and 1-TC"|"This chromosome contains 2 pair(s) at position(s), 1->TC, 44->AG"
+setup|anima|Animal("1111")
+setup|human|Human("2222")
+setup|bicboi|Male("3333")
+setup|girl|Female("4444")
+anima.set_by_pos(1, 1, "AT")|"Set 1-1 to AT for __str__ method"|None
+anima.__str__()|"String representation of animal returning it's chromosome pairs"|"This animal contains 1 chromosome pair(s) at position(s), 1-1->AT"
+human.__str__()|"String representation of human returning it's chromosome pairs"|"This human contains 0 chromosome pair(s) at position(s)"
+bicboi.__str__()|"String representation of male returning it's chromosome pairs"|"This male contains 0 chromosome pair(s) at position(s)"
+girl.__str__()|"String representation of female returning it's chromosome pairs"|"This female contains 0 chromosome pair(s) at position(s)"
+setup|binder1|Binder()
+binder1.set_sex('M')|"Set sex of the binder to male"|None
+binder1.set_by_pos(1, 1, "LM")|"Set pair 1-1 to be left maternal"|None
+binder1.__str__()|"String representation of a binder to create males and bind pair 1-1 left maternally|"This binder creates a male and contains 1 chromosome pair(s) at position(s), 1-1(LM)"
+setup|query0|Query()
+query0.__str__()|"String representation of a query"|"This query contains 0 chromosome pair(s) at position(s)"
